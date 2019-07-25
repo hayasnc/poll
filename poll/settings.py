@@ -71,12 +71,16 @@ WSGI_APPLICATION = 'poll.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
+#update with database details
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+      'ENGINE': 'django.db.backends.postgresql',
+      'NAME': 'DATABASE.NAME',
+      'USER': 'DATABASE.USER',
+      'PASSWORD': 'DATABASE.PASSWORD',
+      'HOST': 'DATABASE.HOST',
+      'PORT': 'DATABASE.PORT',
     }
 }
 
