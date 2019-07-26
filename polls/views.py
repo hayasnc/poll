@@ -2,6 +2,30 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from .models import Question
 from django.shortcuts import render, get_object_or_404
+from django.views import generic
+
+from .models import Choice, Question
+
+
+class IndexView(generic.ListView):
+    template_name = 'polls/index.html'
+    context_object_name = 'latest_question_list'
+
+    def get_queryset(self):
+        """Return the last five published questions."""
+        return Question.objects.order_by('-pub_date')[:5]
+
+
+class DetailView(generic.DetailView):
+    model = Question
+    template_name = 'polls/details.html'
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+
+
 # def index(request):
 #     latest_question_list = Question.objects.order_by('-pub_date')[:5]
 #     template = loader.get_template('polls/index.html')
@@ -10,10 +34,10 @@ from django.shortcuts import render, get_object_or_404
 #     }
 #     return HttpResponse(template.render(context, request))
 
-def index(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
-    return render(request, 'polls/index.html', context)
+# def index(request):
+#     latest_question_list = Question.objects.order_by('-pub_date')[:5]
+#     context = {'latest_question_list': latest_question_list}
+#     return render(request, 'polls/index.html', context)
 
 # def details(request, question_id):
 #     try:
@@ -22,13 +46,13 @@ def index(request):
 #         raise Http404("Questions does't exist")
 #     return render(request, 'polls/details.html', {'question': q})
 
-def details(request, question_id):
-    q = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/details.html', {'question': q})
-
-def results(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    return render(request, 'polls/results.html', {'question': question})
+# def details(request, question_id):
+#     q = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'polls/details.html', {'question': q})
+#
+# def results(request, question_id):
+#     question = get_object_or_404(Question, pk=question_id)
+#     return render(request, 'polls/results.html', {'question': question})
 
 def voting(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
